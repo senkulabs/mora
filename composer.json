@@ -1,0 +1,13 @@
+{
+    "name": "senkulabs/mora",
+    "description": "Laravel module for modular Laravel",
+    "type": "library",
+    "authors": [
+        {
+            "name": "Kresna Satya",
+            "email": "halo@kresna.me"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {}
+}
