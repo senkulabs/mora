@@ -1,3 +1,3 @@
 # Mora
 
-Laravel module for modular Laravel.
+Modular Laravel with native artisan conventions.

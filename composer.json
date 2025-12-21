@@ -1,6 +1,6 @@
 {
     "name": "senkulabs/mora",
-    "description": "Laravel module for modular Laravel",
+    "description": "Modular Laravel with native artisan conventions.",
     "type": "library",
     "authors": [
         {
