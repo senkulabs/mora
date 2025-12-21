@@ -1,0 +1,11 @@
+{
+    "name": "StubClassNamePrefix",
+    "alias": "StubModuleName",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "StubModuleNamespace\\StubClassNamePrefix\\Providers\\StubClassNamePrefixServiceProvider"
+    ],
+    "files": []
+}

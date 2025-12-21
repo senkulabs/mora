@@ -1,0 +1,22 @@
+{
+    "name": "StubComposerName",
+    "description": "",
+    "extra": {
+        "laravel": {
+            "providers": [],
+            "aliases": {}
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "StubModuleNamespace\\StubClassNamePrefix\\": "app/",
+            "StubModuleNamespace\\StubClassNamePrefix\\Database\\Factories\\": "database/factories/",
+            "StubModuleNamespace\\StubClassNamePrefix\\Database\\Seeders\\": "database/seeders/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "StubModuleNamespace\\StubClassNamePrefix\\Tests\\": "tests/"
+        }
+    }
+}
