@@ -11,6 +11,6 @@ class RouteServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
-        Route::middleware('web')->group(module_path($this->name, '/routes/web.php'));
+        Route::middleware('web')->group(base_path("Modules/{$this->name}/routes/web.php"));
     }
 }
