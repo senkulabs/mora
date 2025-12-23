@@ -75,7 +75,7 @@ class BaseModuleGenerator
 
     protected function generateFiles(): void
     {
-        $stubsPath = __DIR__.'/../../stubs/modules';
+        $stubsPath = __DIR__.'/../../stubs';
 
         $files = [
             'composer.json' => 'composer.json',
