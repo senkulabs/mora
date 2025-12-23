@@ -34,7 +34,7 @@ class BaseModuleGenerator
         $this->moduleName = Str::kebab($name);
         $this->classNamePrefix = Str::studly($name);
         $this->moduleNamespace = config('modules.namespace', 'Modules');
-        $this->composerNamespace = config('modules.composer.vendor', 'modules');
+        $this->composerNamespace = 'modules';
         $this->composerName = "{$this->composerNamespace}/{$this->moduleName}";
         $this->basePath = $this->module->getModulePath($this->classNamePrefix);
     }
