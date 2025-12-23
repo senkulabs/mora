@@ -3,7 +3,9 @@
     "description": "",
     "extra": {
         "laravel": {
-            "providers": [],
+            "providers": [
+                "StubModuleNamespace\\StubClassNamePrefix\\Providers\\StubClassNamePrefixServiceProvider"
+            ],
             "aliases": {}
         }
     },
