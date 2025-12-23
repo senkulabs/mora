@@ -13,6 +13,6 @@ class LaravelFileRepository extends FileRepository
      */
     protected function createModule(Container $app, string $name, string $path): Module
     {
-        return new Module($app, $name, $path);
+        return new LaravelModule($app, $name, $path);
     }
 }
