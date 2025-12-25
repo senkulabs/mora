@@ -4,7 +4,6 @@ namespace SenkuLabs\Mora\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
-use Illuminate\Support\Facades\Process;
 use SenkuLabs\Mora\Contracts\ActivatorInterface;
 use SenkuLabs\Mora\Generators\BaseModuleGenerator;
 
@@ -34,23 +33,23 @@ class MakeModuleCommand extends Command
             return E_ERROR;
         }
 
+        $classNamePrefix = $generator->getClassNamePrefix();
+        $composerName = $generator->getComposerName();
+
         $this->newLine();
 
         // Show what was created
-        $this->components->twoColumnDetail('Module path', base_path("Modules/{$name}"));
-        $this->components->twoColumnDetail('Service Provider', "Modules/{$name}/app/Providers/{$name}ServiceProvider.php");
+        $this->components->twoColumnDetail('Module path', base_path("Modules/{$classNamePrefix}"));
+        $this->components->twoColumnDetail('Service Provider', "Modules/{$classNamePrefix}/app/Providers/{$classNamePrefix}ServiceProvider.php");
 
         $this->newLine();
 
-        // Run composer dump-autoload
-        $this->components->task('Running composer dump-autoload', function () {
-            Process::path(base_path())
-                ->command('composer dump-autoload')
-                ->run();
-        });
+        $this->components->info("Module [{$classNamePrefix}] created successfully.");
 
         $this->newLine();
-        $this->components->info("Module [{$name}] created successfully.");
+
+        $this->components->warn("Run the following command to autoload the module service provider:");
+        $this->line("  composer update {$composerName}");
 
         return 0;
     }

@@ -39,6 +39,26 @@ class BaseModuleGenerator
         $this->basePath = $this->module->getModulePath($this->classNamePrefix);
     }
 
+    public function getModuleName(): string
+    {
+        return $this->moduleName;
+    }
+
+    public function getClassNamePrefix(): string
+    {
+        return $this->classNamePrefix;
+    }
+
+    public function getComposerName(): string
+    {
+        return $this->composerName;
+    }
+
+    public function getBasePath(): string
+    {
+        return $this->basePath;
+    }
+
     public function generate(): int
     {
         if ($this->module->has($this->classNamePrefix)) {
@@ -47,9 +67,51 @@ class BaseModuleGenerator
 
         $this->generateFolders();
         $this->generateFiles();
+        $this->registerInComposer();
         $this->activator->setActiveByName($this->classNamePrefix, true);
 
         return 0;
+    }
+
+    protected function registerInComposer(): void
+    {
+        $composerPath = base_path('composer.json');
+
+        if (!$this->filesystem->exists($composerPath)) {
+            return;
+        }
+
+        $composer = json_decode($this->filesystem->get($composerPath), true);
+
+        // Add to require
+        if (!isset($composer['require'][$this->composerName])) {
+            $composer['require'][$this->composerName] = '@dev';
+        }
+
+        // Add to repositories
+        if (!isset($composer['repositories'])) {
+            $composer['repositories'] = [];
+        }
+
+        $repositoryExists = false;
+        foreach ($composer['repositories'] as $repo) {
+            if (isset($repo['url']) && $repo['url'] === "Modules/{$this->classNamePrefix}") {
+                $repositoryExists = true;
+                break;
+            }
+        }
+
+        if (!$repositoryExists) {
+            $composer['repositories'][$this->moduleName] = [
+                'type' => 'path',
+                'url' => "Modules/{$this->classNamePrefix}",
+            ];
+        }
+
+        $this->filesystem->put(
+            $composerPath,
+            json_encode($composer, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES) . "\n"
+        );
     }
 
     protected function generateFolders(): void
@@ -87,8 +149,7 @@ class BaseModuleGenerator
             'views/master.blade.php' => 'resources/views/components/layouts/master.blade.php',
             'assets/app.js' => 'resources/js/app.js',
             'assets/app.css' => 'resources/css/app.css',
-            'providers/base.php' => "app/Providers/{$this->classNamePrefix}ServiceProvider.php",
-            'providers/route.php' => "app/Providers/RouteServiceProvider.php",
+            'provider.php' => "app/Providers/{$this->classNamePrefix}ServiceProvider.php",
         ];
 
         foreach ($files as $stub => $destination) {

@@ -2,17 +2,13 @@
 
 namespace SenkuLabs\Mora;
 
-use Composer\InstalledVersions;
 use Illuminate\Contracts\Translation\Translator as TranslatorContract;
 use Illuminate\Database\Migrations\Migrator;
 use Illuminate\Filesystem\Filesystem;
-use Illuminate\Foundation\Console\AboutCommand;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Translation\Translator;
 use SenkuLabs\Mora\Contracts\ActivatorInterface;
-use SenkuLabs\Mora\Contracts\RepositoryInterface;
 use SenkuLabs\Mora\Exceptions\InvalidActivatorClass;
-use SenkuLabs\Mora\Support\Stub;
 
 class BaseServiceProvider extends ModulesServiceProvider
 {
@@ -22,10 +18,6 @@ class BaseServiceProvider extends ModulesServiceProvider
     public function boot()
     {
         $this->registerNamespaces();
-
-        AboutCommand::add('Laravel-Modules', [
-            'Version' => fn () => InstalledVersions::getPrettyVersion('nwidart/laravel-modules'),
-        ]);
 
         // Create @module() blade directive.
         Blade::if('module', function (string $name) {
@@ -39,8 +31,6 @@ class BaseServiceProvider extends ModulesServiceProvider
     public function register()
     {
         $this->registerServices();
-        $this->setupStubPath();
-        $this->registerProviders();
 
         $this->registerMigrations();
         $this->registerTranslations();
@@ -51,23 +41,6 @@ class BaseServiceProvider extends ModulesServiceProvider
 
         // Register the modularized commands service provider
         $this->app->register(Providers\ModularizedCommandsServiceProvider::class);
-    }
-
-    /**
-     * Setup stub path.
-     */
-    public function setupStubPath()
-    {
-        $path = $this->app['config']->get('modules.stubs.path') ?? __DIR__.'/../stubs';
-        Stub::setBasePath($path);
-
-        $this->app->booted(function ($app) {
-            /** @var RepositoryInterface $moduleRepository */
-            $moduleRepository = $app[RepositoryInterface::class];
-            if ($moduleRepository->config('stubs.enabled') === true) {
-                Stub::setBasePath($moduleRepository->config('stubs.path'));
-            }
-        });
     }
 
     /**
@@ -101,7 +74,6 @@ class BaseServiceProvider extends ModulesServiceProvider
                 app(ActivatorInterface::class)
             )
         );
-
     }
 
     protected function registerMigrations(): void

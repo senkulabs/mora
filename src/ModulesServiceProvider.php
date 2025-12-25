@@ -6,8 +6,6 @@ use Illuminate\Filesystem\Filesystem;
 use Illuminate\Foundation\ProviderRepository;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
-use SenkuLabs\Mora\Providers\ConsoleServiceProvider;
-use SenkuLabs\Mora\Providers\ContractsServiceProvider;
 
 abstract class ModulesServiceProvider extends ServiceProvider
 {
@@ -32,7 +30,6 @@ abstract class ModulesServiceProvider extends ServiceProvider
             ->load($manifest->getProviders());
 
         $manifest->registerFiles();
-
     }
 
     /**
@@ -41,19 +38,10 @@ abstract class ModulesServiceProvider extends ServiceProvider
     protected function registerNamespaces()
     {
         $configPath = __DIR__.'/../config/config.php';
-        $stubsPath = dirname(__DIR__).'/src/../stubs';
 
         $this->publishes([
             $configPath => config_path('modules.php'),
         ], 'config');
-
-        $this->publishes([
-            $stubsPath => base_path('stubs/nwidart-stubs'),
-        ], 'stubs');
-
-        $this->publishes([
-            __DIR__.'/../scripts/vite-module-loader.js' => base_path('vite-module-loader.js'),
-        ], 'vite');
     }
 
     /**
@@ -67,15 +55,6 @@ abstract class ModulesServiceProvider extends ServiceProvider
     public function provides(): array
     {
         return [Contracts\RepositoryInterface::class, 'modules'];
-    }
-
-    /**
-     * Register providers.
-     */
-    protected function registerProviders()
-    {
-        $this->app->register(ConsoleServiceProvider::class);
-        $this->app->register(ContractsServiceProvider::class);
     }
 
     protected function getCachedModulePath()
