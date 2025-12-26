@@ -10,5 +10,6 @@ class StubClassNamePrefixServiceProvider extends ServiceProvider
     {
         $this->loadViewsFrom(__DIR__.'/../../resources/views', 'StubModuleName');
         $this->loadRoutesFrom(__DIR__.'/../../routes/web.php');
+        $this->loadTranslationsFrom(__DIR__.'/../../lang', 'StubModuleName');
     }
 }
