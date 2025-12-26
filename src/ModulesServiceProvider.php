@@ -2,10 +2,7 @@
 
 namespace SenkuLabs\Mora;
 
-use Illuminate\Filesystem\Filesystem;
-use Illuminate\Foundation\ProviderRepository;
 use Illuminate\Support\ServiceProvider;
-use Illuminate\Support\Str;
 
 abstract class ModulesServiceProvider extends ServiceProvider
 {
@@ -18,19 +15,6 @@ abstract class ModulesServiceProvider extends ServiceProvider
      * Register all modules.
      */
     public function register() {}
-
-    /**
-     * Register all modules.
-     */
-    protected function registerModules()
-    {
-        $manifest = app(ModuleManifest::class);
-
-        (new ProviderRepository($this->app, new Filesystem, $this->getCachedModulePath()))
-            ->load($manifest->getProviders());
-
-        $manifest->registerFiles();
-    }
 
     /**
      * Register package's namespaces.
@@ -55,10 +39,5 @@ abstract class ModulesServiceProvider extends ServiceProvider
     public function provides(): array
     {
         return [Contracts\RepositoryInterface::class, 'modules'];
-    }
-
-    protected function getCachedModulePath()
-    {
-        return Str::replaceLast('services.php', 'modules.php', $this->app->getCachedServicesPath());
     }
 }

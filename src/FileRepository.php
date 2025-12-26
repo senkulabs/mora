@@ -129,11 +129,14 @@ abstract class FileRepository implements Countable, RepositoryInterface
         $modules = [];
 
         foreach ($paths as $key => $path) {
-            $manifests = (array) $this->getFiles()->glob("{$path}/module.json");
+            $manifests = (array) $this->getFiles()->glob("{$path}/composer.json");
 
             foreach ($manifests as $manifest) {
                 $json = Json::make($manifest);
-                $name = $json->get('name');
+                $composerName = $json->get('name'); // e.g., "modules/guitar"
+
+                // Extract module name from composer name (e.g., "modules/guitar" -> "Guitar")
+                $name = Str::studly(Str::afterLast($composerName, '/'));
 
                 $modules[strtolower($name)] = $this->createModule($this->app, $name, dirname($manifest));
             }

@@ -4,10 +4,8 @@ namespace SenkuLabs\Mora;
 
 use Illuminate\Contracts\Translation\Translator as TranslatorContract;
 use Illuminate\Database\Migrations\Migrator;
-use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Translation\Translator;
-use SenkuLabs\Mora\Contracts\ActivatorInterface;
 use SenkuLabs\Mora\Exceptions\InvalidActivatorClass;
 
 class BaseServiceProvider extends ModulesServiceProvider
@@ -37,8 +35,6 @@ class BaseServiceProvider extends ModulesServiceProvider
 
         $this->mergeConfigFrom(__DIR__.'/../config/config.php', 'modules');
 
-        $this->registerModules();
-
         // Register the modularized commands service provider
         $this->app->register(Providers\ModularizedCommandsServiceProvider::class);
     }
@@ -64,16 +60,6 @@ class BaseServiceProvider extends ModulesServiceProvider
             return new $class($app);
         });
         $this->app->alias(Contracts\RepositoryInterface::class, 'modules');
-
-        $this->app->singleton(
-            ModuleManifest::class,
-            fn () => new ModuleManifest(
-                new Filesystem,
-                app(Contracts\RepositoryInterface::class)->getScanPaths(),
-                $this->getCachedModulePath(),
-                app(ActivatorInterface::class)
-            )
-        );
     }
 
     protected function registerMigrations(): void

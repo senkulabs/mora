@@ -142,7 +142,6 @@ class BaseModuleGenerator
 
         $files = [
             'composer.json' => 'composer.json',
-            'module.json' => 'module.json',
             'package.json' => 'package.json',
             'gitignore' => '.gitignore',
             'lang/en/.gitkeep' => 'lang/en/.gitkeep',

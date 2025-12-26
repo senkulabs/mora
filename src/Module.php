@@ -150,9 +150,9 @@ abstract class Module
     /**
      * Get priority.
      */
-    public function getPriority(): string
+    public function getPriority(): int
     {
-        return $this->get('priority');
+        return 0;
     }
 
     /**
@@ -192,10 +192,6 @@ abstract class Module
             $this->registerTranslation();
         }
 
-        if ($this->isLoadFilesOnBoot()) {
-            $this->registerFiles();
-        }
-
         $this->fireEvent(ModuleEvent::BOOT);
     }
 
@@ -219,7 +215,7 @@ abstract class Module
     public function json(?string $file = null): Json
     {
         if ($file === null) {
-            $file = 'module.json';
+            $file = 'composer.json';
         }
 
         return Arr::get($this->moduleJson, $file, function () use ($file) {
@@ -228,19 +224,11 @@ abstract class Module
     }
 
     /**
-     * Get a specific data from json file by given the key.
+     * Get a specific data from composer.json file by given the key.
      */
     public function get(string $key, $default = null)
     {
         return $this->json()->get($key, $default);
-    }
-
-    /**
-     * Get a specific data from composer.json file by given the key.
-     */
-    public function getComposerAttr(string $key, $default = null)
-    {
-        return $this->json('composer.json')->get($key, $default);
     }
 
     /**
@@ -251,10 +239,6 @@ abstract class Module
         $this->registerAliases();
 
         $this->registerProviders();
-
-        if ($this->isLoadFilesOnBoot() === false) {
-            $this->registerFiles();
-        }
 
         $this->fireEvent(ModuleEvent::REGISTER);
     }
@@ -281,16 +265,6 @@ abstract class Module
      * Get the path to the cached *_module.php file.
      */
     abstract public function getCachedServicesPath(): string;
-
-    /**
-     * Register the files from this module.
-     */
-    protected function registerFiles(): void
-    {
-        foreach ($this->get('files', []) as $file) {
-            include $this->path.'/'.$file;
-        }
-    }
 
     /**
      * Handle call __toString.
@@ -378,16 +352,6 @@ abstract class Module
     public function getExtraPath(?string $path): string
     {
         return $this->getPath().($path ? '/'.$path : '');
-    }
-
-    /**
-     * Check can load files of module on boot method.
-     */
-    protected function isLoadFilesOnBoot(): bool
-    {
-        return config('modules.register.files', 'register') === 'boot' &&
-            // force register method if option == boot && app is AsgardCms
-            ! class_exists('\Modules\Core\Foundation\AsgardCms');
     }
 
     /**
