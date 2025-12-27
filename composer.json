@@ -11,10 +11,7 @@
     "autoload": {
         "psr-4": {
             "SenkuLabs\\Mora\\": "src"
-        },
-        "files": [
-            "src/helpers.php"
-        ]
+        }
     },
     "extra": {
         "laravel": {

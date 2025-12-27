@@ -4,12 +4,12 @@ namespace SenkuLabs\Mora\Generators;
 
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Str;
-use SenkuLabs\Mora\FileRepository;
+use SenkuLabs\Mora\ModuleRepository;
 
 class BaseModuleGenerator
 {
     protected Filesystem $filesystem;
-    protected FileRepository $module;
+    protected ModuleRepository $module;
     protected string $name;
     protected string $moduleName;
     protected string $classNamePrefix;
@@ -21,7 +21,7 @@ class BaseModuleGenerator
     public function __construct(
         string $name,
         Filesystem $filesystem,
-        FileRepository $module
+        ModuleRepository $module
     ) {
         $this->name = $name;
         $this->filesystem = $filesystem;

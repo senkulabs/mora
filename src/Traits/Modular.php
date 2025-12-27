@@ -23,12 +23,6 @@ trait Modular
             throw new InvalidOptionException(sprintf('The "%s" module does not exist.', $name));
         }
 
-        // Fallback to "used" module if set
-        $modules = $this->getLaravel()->make('modules');
-        if ($usedModule = $modules->getUsedNow()) {
-            return $modules->find($usedModule);
-        }
-
         return null;
     }
 
