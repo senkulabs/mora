@@ -52,7 +52,7 @@ class ModuleRepository implements Countable
      */
     public function scan(): array
     {
-        if (! empty(self::$modules) && ! $this->app->runningUnitTests()) {
+        if (! empty(self::$modules)) {
             return self::$modules;
         }
 
