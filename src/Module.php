@@ -10,7 +10,6 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Illuminate\Support\Traits\Macroable;
 use SenkuLabs\Mora\Constants\ModuleEvent;
-use SenkuLabs\Mora\Contracts\ActivatorInterface;
 
 abstract class Module
 {
@@ -54,11 +53,6 @@ abstract class Module
     private Translator $translator;
 
     /**
-     * ActivatorInterface
-     */
-    private ActivatorInterface $activator;
-
-    /**
      * The constructor.
      */
     public function __construct(Container $app, string $name, string $path)
@@ -68,7 +62,6 @@ abstract class Module
         $this->cache = $app['cache'];
         $this->files = $app['files'];
         $this->translator = $app['translator'];
-        $this->activator = $app[ActivatorInterface::class];
         $this->app = $app;
     }
 
@@ -276,58 +269,28 @@ abstract class Module
 
     /**
      * Determine whether the given status same with the current module status.
+     * Modules are always enabled when they exist in the filesystem.
      */
     public function isStatus(bool $status): bool
     {
-        return $this->activator->hasStatus($this, $status);
+        return $status === true;
     }
 
     /**
      * Determine whether the current module activated.
+     * Modules are always enabled when they exist in the filesystem.
      */
     public function isEnabled(): bool
     {
-        return $this->activator->hasStatus($this, true);
+        return true;
     }
 
     /**
-     *  Determine whether the current module not disabled.
+     * Determine whether the current module not disabled.
      */
     public function isDisabled(): bool
     {
-        return ! $this->isEnabled();
-    }
-
-    /**
-     * Set active state for current module.
-     */
-    public function setActive(bool $active): void
-    {
-        $this->activator->setActive($this, $active);
-    }
-
-    /**
-     * Disable the current module.
-     */
-    public function disable(): void
-    {
-        $this->fireEvent(ModuleEvent::DISABLING);
-
-        $this->activator->disable($this);
-
-        $this->fireEvent(ModuleEvent::DISABLED);
-    }
-
-    /**
-     * Enable the current module.
-     */
-    public function enable(): void
-    {
-        $this->fireEvent(ModuleEvent::ENABLING);
-
-        $this->activator->enable($this);
-
-        $this->fireEvent(ModuleEvent::ENABLED);
+        return false;
     }
 
     /**
@@ -336,8 +299,6 @@ abstract class Module
     public function delete(): bool
     {
         $this->fireEvent(ModuleEvent::DELETING);
-
-        $this->activator->delete($this);
 
         $result = $this->json()->getFilesystem()->deleteDirectory($this->getPath());
 

@@ -4,7 +4,6 @@ namespace SenkuLabs\Mora\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
-use SenkuLabs\Mora\Contracts\ActivatorInterface;
 use SenkuLabs\Mora\Generators\BaseModuleGenerator;
 
 class MakeModuleCommand extends Command
@@ -22,8 +21,7 @@ class MakeModuleCommand extends Command
         $generator = new BaseModuleGenerator(
             $name,
             app(Filesystem::class),
-            app('modules'),
-            app(ActivatorInterface::class)
+            app('modules')
         );
 
         $code = $generator->generate();

@@ -426,26 +426,6 @@ abstract class FileRepository implements Countable, RepositoryInterface
     }
 
     /**
-     * Enabling a specific module.
-     *
-     * @throws \SenkuLabs\Mora\Exceptions\ModuleNotFoundException
-     */
-    public function enable(string $name)
-    {
-        $this->findOrFail($name)->enable();
-    }
-
-    /**
-     * Disabling a specific module.
-     *
-     * @throws \SenkuLabs\Mora\Exceptions\ModuleNotFoundException
-     */
-    public function disable(string $name)
-    {
-        $this->findOrFail($name)->disable();
-    }
-
-    /**
      * {@inheritDoc}
      */
     public function delete(string $name): bool

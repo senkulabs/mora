@@ -4,14 +4,12 @@ namespace SenkuLabs\Mora\Generators;
 
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Str;
-use SenkuLabs\Mora\Contracts\ActivatorInterface;
 use SenkuLabs\Mora\FileRepository;
 
 class BaseModuleGenerator
 {
     protected Filesystem $filesystem;
     protected FileRepository $module;
-    protected ActivatorInterface $activator;
     protected string $name;
     protected string $moduleName;
     protected string $classNamePrefix;
@@ -23,13 +21,11 @@ class BaseModuleGenerator
     public function __construct(
         string $name,
         Filesystem $filesystem,
-        FileRepository $module,
-        ActivatorInterface $activator
+        FileRepository $module
     ) {
         $this->name = $name;
         $this->filesystem = $filesystem;
         $this->module = $module;
-        $this->activator = $activator;
 
         $this->moduleName = Str::kebab($name);
         $this->classNamePrefix = Str::studly($name);
@@ -68,7 +64,6 @@ class BaseModuleGenerator
         $this->generateFolders();
         $this->generateFiles();
         $this->registerInComposer();
-        $this->activator->setActiveByName($this->classNamePrefix, true);
 
         return 0;
     }

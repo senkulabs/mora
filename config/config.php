@@ -1,7 +1,5 @@
 <?php
 
-use SenkuLabs\Mora\Activators\FileActivator;
-
 return [
 
     /*
@@ -94,20 +92,4 @@ return [
         ],
     ],
 
-    /*
-    |--------------------------------------------------------------------------
-    | Activators
-    |--------------------------------------------------------------------------
-    |
-    | Module activation storage.
-    |
-    */
-    'activators' => [
-        'file' => [
-            'class' => FileActivator::class,
-            'statuses-file' => base_path('modules_statuses.json'),
-        ],
-    ],
-
-    'activator' => 'file',
 ];

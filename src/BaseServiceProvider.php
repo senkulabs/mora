@@ -6,7 +6,6 @@ use Illuminate\Contracts\Translation\Translator as TranslatorContract;
 use Illuminate\Database\Migrations\Migrator;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Translation\Translator;
-use SenkuLabs\Mora\Exceptions\InvalidActivatorClass;
 
 class BaseServiceProvider extends ModulesServiceProvider
 {
@@ -48,16 +47,6 @@ class BaseServiceProvider extends ModulesServiceProvider
             $path = $app['config']->get('modules.paths.modules');
 
             return new Laravel\LaravelFileRepository($app, $path);
-        });
-        $this->app->singleton(Contracts\ActivatorInterface::class, function ($app) {
-            $activator = $app['config']->get('modules.activator');
-            $class = $app['config']->get('modules.activators.'.$activator)['class'];
-
-            if ($class === null) {
-                throw InvalidActivatorClass::missingConfig();
-            }
-
-            return new $class($app);
         });
         $this->app->alias(Contracts\RepositoryInterface::class, 'modules');
     }
