@@ -8,7 +8,7 @@ use Illuminate\Support\ServiceProvider;
 use SenkuLabs\Mora\Commands\Laravel as LaravelCommands;
 use SenkuLabs\Mora\Commands\MakeModuleCommand;
 
-class ModularizedCommandsServiceProvider extends ServiceProvider
+class ModularCommandsServiceProvider extends ServiceProvider
 {
     /**
      * Laravel command aliases mapped to our replacement classes.

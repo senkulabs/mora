@@ -19,7 +19,7 @@ class BaseServiceProvider extends ServiceProvider
 
         $this->mergeConfigFrom(__DIR__.'/../config/config.php', 'modules');
 
-        $this->app->register(Providers\ModularizedCommandsServiceProvider::class);
+        $this->app->register(Providers\ModularCommandsServiceProvider::class);
     }
 
     /**
