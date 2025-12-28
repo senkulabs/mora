@@ -140,6 +140,8 @@ class BaseModuleGenerator
             'package.json' => 'package.json',
             'gitignore' => '.gitignore',
             'lang/en/.gitkeep' => 'lang/en/.gitkeep',
+            'lang/en/messages.php' => 'lang/en/messages.php',
+            'lang/en.json' => 'lang/en.json',
             'routes/web.php' => 'routes/web.php',
             'views/index.blade.php' => 'resources/views/index.blade.php',
             'views/master.blade.php' => 'resources/views/components/layouts/master.blade.php',
