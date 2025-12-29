@@ -6,18 +6,20 @@ use Illuminate\Console\Application as Artisan;
 use Illuminate\Database\Console\Migrations\MigrateMakeCommand as OriginalMigrateMakeCommand;
 use Illuminate\Support\ServiceProvider;
 use Livewire\Features\SupportConsoleCommands\Commands\MakeCommand as MakeLivewireCommand;
-use SenkuLabs\Mora\Commands\Laravel as LaravelCommands;
 use SenkuLabs\Mora\Commands\MakeLivewire;
 use SenkuLabs\Mora\Commands\MakeModuleCommand;
 use SenkuLabs\Mora\Console\Commands\Database\SeedCommand;
 use SenkuLabs\Mora\Console\Commands\Make\MakeCast;
 use SenkuLabs\Mora\Console\Commands\Make\MakeChannel;
+use SenkuLabs\Mora\Console\Commands\Make\MakeClass;
 use SenkuLabs\Mora\Console\Commands\Make\MakeCommand;
 use SenkuLabs\Mora\Console\Commands\Make\MakeComponent;
 use SenkuLabs\Mora\Console\Commands\Make\MakeController;
+use SenkuLabs\Mora\Console\Commands\Make\MakeEnum;
 use SenkuLabs\Mora\Console\Commands\Make\MakeEvent;
 use SenkuLabs\Mora\Console\Commands\Make\MakeException;
 use SenkuLabs\Mora\Console\Commands\Make\MakeFactory;
+use SenkuLabs\Mora\Console\Commands\Make\MakeInterface;
 use SenkuLabs\Mora\Console\Commands\Make\MakeJob;
 use SenkuLabs\Mora\Console\Commands\Make\MakeListener;
 use SenkuLabs\Mora\Console\Commands\Make\MakeMail;
@@ -31,8 +33,11 @@ use SenkuLabs\Mora\Console\Commands\Make\MakeProvider;
 use SenkuLabs\Mora\Console\Commands\Make\MakeRequest;
 use SenkuLabs\Mora\Console\Commands\Make\MakeResource;
 use SenkuLabs\Mora\Console\Commands\Make\MakeRule;
+use SenkuLabs\Mora\Console\Commands\Make\MakeScope;
 use SenkuLabs\Mora\Console\Commands\Make\MakeSeeder;
 use SenkuLabs\Mora\Console\Commands\Make\MakeTest;
+use SenkuLabs\Mora\Console\Commands\Make\MakeTrait;
+use SenkuLabs\Mora\Console\Commands\Make\MakeView;
 
 class ModularCommandsServiceProvider extends ServiceProvider
 {
@@ -62,12 +67,12 @@ class ModularCommandsServiceProvider extends ServiceProvider
         'command.seeder.make' => MakeSeeder::class,
         'command.test.make' => MakeTest::class,
         'command.component.make' => MakeComponent::class,
-        'command.view.make' => LaravelCommands\ViewMakeCommand::class,
-        'command.scope.make' => LaravelCommands\ScopeMakeCommand::class,
-        'command.enum.make' => LaravelCommands\EnumMakeCommand::class,
-        'command.class.make' => LaravelCommands\ClassMakeCommand::class,
-        'command.trait.make' => LaravelCommands\TraitMakeCommand::class,
-        'command.interface.make' => LaravelCommands\InterfaceMakeCommand::class,
+        'command.view.make' => MakeView::class,
+        'command.scope.make' => MakeScope::class,
+        'command.enum.make' => MakeEnum::class,
+        'command.class.make' => MakeClass::class,
+        'command.trait.make' => MakeTrait::class,
+        'command.interface.make' => MakeInterface::class,
         'command.seed' => SeedCommand::class,
     ];
 
