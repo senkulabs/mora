@@ -13,5 +13,12 @@ class StubClassNamePrefixServiceProvider extends ServiceProvider
         $this->loadTranslationsFrom(__DIR__.'/../../lang', 'StubModuleName');
         $this->loadMigrationsFrom(__DIR__.'/../../database/migrations');
         $this->loadJsonTranslationsFrom(__DIR__.'/../../lang');
+
+        $this->registerLivewireComponents();
+    }
+
+    protected function registerLivewireComponents()
+    {
+        // Register Livewire components here
     }
 }
