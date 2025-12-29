@@ -5,8 +5,34 @@ namespace SenkuLabs\Mora\Providers;
 use Illuminate\Console\Application as Artisan;
 use Illuminate\Database\Console\Migrations\MigrateMakeCommand as OriginalMigrateMakeCommand;
 use Illuminate\Support\ServiceProvider;
+use Livewire\Features\SupportConsoleCommands\Commands\MakeCommand as MakeLivewireCommand;
 use SenkuLabs\Mora\Commands\Laravel as LaravelCommands;
+use SenkuLabs\Mora\Commands\MakeLivewire;
 use SenkuLabs\Mora\Commands\MakeModuleCommand;
+use SenkuLabs\Mora\Console\Commands\Database\SeedCommand;
+use SenkuLabs\Mora\Console\Commands\Make\MakeCast;
+use SenkuLabs\Mora\Console\Commands\Make\MakeChannel;
+use SenkuLabs\Mora\Console\Commands\Make\MakeCommand;
+use SenkuLabs\Mora\Console\Commands\Make\MakeComponent;
+use SenkuLabs\Mora\Console\Commands\Make\MakeController;
+use SenkuLabs\Mora\Console\Commands\Make\MakeEvent;
+use SenkuLabs\Mora\Console\Commands\Make\MakeException;
+use SenkuLabs\Mora\Console\Commands\Make\MakeFactory;
+use SenkuLabs\Mora\Console\Commands\Make\MakeJob;
+use SenkuLabs\Mora\Console\Commands\Make\MakeListener;
+use SenkuLabs\Mora\Console\Commands\Make\MakeMail;
+use SenkuLabs\Mora\Console\Commands\Make\MakeMiddleware;
+use SenkuLabs\Mora\Console\Commands\Make\MakeMigration;
+use SenkuLabs\Mora\Console\Commands\Make\MakeModel;
+use SenkuLabs\Mora\Console\Commands\Make\MakeNotification;
+use SenkuLabs\Mora\Console\Commands\Make\MakeObserver;
+use SenkuLabs\Mora\Console\Commands\Make\MakePolicy;
+use SenkuLabs\Mora\Console\Commands\Make\MakeProvider;
+use SenkuLabs\Mora\Console\Commands\Make\MakeRequest;
+use SenkuLabs\Mora\Console\Commands\Make\MakeResource;
+use SenkuLabs\Mora\Console\Commands\Make\MakeRule;
+use SenkuLabs\Mora\Console\Commands\Make\MakeSeeder;
+use SenkuLabs\Mora\Console\Commands\Make\MakeTest;
 
 class ModularCommandsServiceProvider extends ServiceProvider
 {
@@ -14,34 +40,35 @@ class ModularCommandsServiceProvider extends ServiceProvider
      * Laravel command aliases mapped to our replacement classes.
      */
     protected array $overrides = [
-        'command.cast.make' => LaravelCommands\CastMakeCommand::class,
-        'command.controller.make' => LaravelCommands\ControllerMakeCommand::class,
-        'command.console.make' => LaravelCommands\CommandMakeCommand::class,
-        'command.channel.make' => LaravelCommands\ChannelMakeCommand::class,
-        'command.event.make' => LaravelCommands\EventMakeCommand::class,
-        'command.exception.make' => LaravelCommands\ExceptionMakeCommand::class,
-        'command.factory.make' => LaravelCommands\FactoryMakeCommand::class,
-        'command.job.make' => LaravelCommands\JobMakeCommand::class,
-        'command.listener.make' => LaravelCommands\ListenerMakeCommand::class,
-        'command.mail.make' => LaravelCommands\MailMakeCommand::class,
-        'command.middleware.make' => LaravelCommands\MiddlewareMakeCommand::class,
-        'command.model.make' => LaravelCommands\ModelMakeCommand::class,
-        'command.notification.make' => LaravelCommands\NotificationMakeCommand::class,
-        'command.observer.make' => LaravelCommands\ObserverMakeCommand::class,
-        'command.policy.make' => LaravelCommands\PolicyMakeCommand::class,
-        'command.provider.make' => LaravelCommands\ProviderMakeCommand::class,
-        'command.request.make' => LaravelCommands\RequestMakeCommand::class,
-        'command.resource.make' => LaravelCommands\ResourceMakeCommand::class,
-        'command.rule.make' => LaravelCommands\RuleMakeCommand::class,
-        'command.seeder.make' => LaravelCommands\SeederMakeCommand::class,
-        'command.test.make' => LaravelCommands\TestMakeCommand::class,
-        'command.component.make' => LaravelCommands\ComponentMakeCommand::class,
+        'command.cast.make' => MakeCast::class,
+        'command.controller.make' => MakeController::class,
+        'command.console.make' => MakeCommand::class,
+        'command.channel.make' => MakeChannel::class,
+        'command.event.make' => MakeEvent::class,
+        'command.exception.make' => MakeException::class,
+        'command.factory.make' => MakeFactory::class,
+        'command.job.make' => MakeJob::class,
+        'command.listener.make' => MakeListener::class,
+        'command.mail.make' => MakeMail::class,
+        'command.middleware.make' => MakeMiddleware::class,
+        'command.model.make' => MakeModel::class,
+        'command.notification.make' => MakeNotification::class,
+        'command.observer.make' => MakeObserver::class,
+        'command.policy.make' => MakePolicy::class,
+        'command.provider.make' => MakeProvider::class,
+        'command.request.make' => MakeRequest::class,
+        'command.resource.make' => MakeResource::class,
+        'command.rule.make' => MakeRule::class,
+        'command.seeder.make' => MakeSeeder::class,
+        'command.test.make' => MakeTest::class,
+        'command.component.make' => MakeComponent::class,
         'command.view.make' => LaravelCommands\ViewMakeCommand::class,
         'command.scope.make' => LaravelCommands\ScopeMakeCommand::class,
         'command.enum.make' => LaravelCommands\EnumMakeCommand::class,
         'command.class.make' => LaravelCommands\ClassMakeCommand::class,
         'command.trait.make' => LaravelCommands\TraitMakeCommand::class,
         'command.interface.make' => LaravelCommands\InterfaceMakeCommand::class,
+        'command.seed' => SeedCommand::class,
     ];
 
     /**
@@ -54,6 +81,7 @@ class ModularCommandsServiceProvider extends ServiceProvider
                 $artisan->add(new MakeModuleCommand());
                 $this->registerMakeCommandOverrides();
                 $this->registerMigrationCommandOverrides();
+                $this->registerLivewireOverrides($artisan);
             });
         });
     }
@@ -64,17 +92,8 @@ class ModularCommandsServiceProvider extends ServiceProvider
     protected function registerMakeCommandOverrides(): void
     {
         foreach ($this->overrides as $alias => $className) {
-            // Skip if the parent class doesn't exist (for Laravel version compatibility)
-            $parentClass = get_parent_class($className);
-            if ($parentClass && ! class_exists($parentClass)) {
-                continue;
-            }
-
             $this->app->singleton($alias, $className);
-
-            if ($parentClass) {
-                $this->app->singleton($parentClass, $className);
-            }
+            $this->app->singleton(get_parent_class($className), $className);
         }
     }
 
@@ -83,18 +102,31 @@ class ModularCommandsServiceProvider extends ServiceProvider
      */
     protected function registerMigrationCommandOverrides(): void
     {
-        $this->app->singleton('command.migrate.make', function ($app) {
-            return new LaravelCommands\MigrationMakeCommand(
-                $app['migration.creator'],
-                $app['composer']
-            );
+        // Laravel 8
+        $this->app->singleton('command.migrate.make', function($app) {
+            return new MakeMigration($app['migration.creator'], $app['composer']);
         });
 
-        $this->app->singleton(OriginalMigrateMakeCommand::class, function ($app) {
-            return new LaravelCommands\MigrationMakeCommand(
-                $app['migration.creator'],
-                $app['composer']
-            );
+        // Laravel 9
+        $this->app->singleton(OriginalMigrateMakeCommand::class, function($app) {
+            return new MakeMigration($app['migration.creator'], $app['composer']);
+        });
+    }
+
+    protected function registerLivewireOverrides(Artisan $artisan)
+    {
+        // Don't register commands if Livewire isn't installed
+        if (! class_exists(MakeLivewireCommand::class)) {
+            return;
+        }
+
+        // Replace the resolved command with our subclass
+        $artisan->resolveCommands(MakeLivewire::class);
+
+        // Ensure that if 'make:livewire' or 'livewire:make' is resolved from the container
+        // in the future, our subclass is used instead
+        $this->app->extend(MakeLivewireCommand::class, function () {
+            return new MakeLivewire();
         });
     }
 }
