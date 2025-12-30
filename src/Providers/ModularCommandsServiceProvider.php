@@ -6,8 +6,8 @@ use Illuminate\Console\Application as Artisan;
 use Illuminate\Database\Console\Migrations\MigrateMakeCommand as OriginalMigrateMakeCommand;
 use Illuminate\Support\ServiceProvider;
 use Livewire\Features\SupportConsoleCommands\Commands\MakeCommand as MakeLivewireCommand;
-use SenkuLabs\Mora\Console\Commands\MakeLivewire;
-use SenkuLabs\Mora\Console\Commands\MakeModuleCommand;
+use SenkuLabs\Mora\Console\Commands\Make\MakeLivewire;
+use SenkuLabs\Mora\Console\Commands\Make\MakeModule;
 use SenkuLabs\Mora\Console\Commands\Database\SeedCommand;
 use SenkuLabs\Mora\Console\Commands\Make\MakeCast;
 use SenkuLabs\Mora\Console\Commands\Make\MakeChannel;
@@ -83,7 +83,7 @@ class ModularCommandsServiceProvider extends ServiceProvider
     {
         $this->app->booted(function () {
             Artisan::starting(function ($artisan) {
-                $artisan->add(new MakeModuleCommand());
+                $artisan->add(new MakeModule());
                 $this->registerMakeCommandOverrides();
                 $this->registerMigrationCommandOverrides();
                 $this->registerLivewireOverrides($artisan);

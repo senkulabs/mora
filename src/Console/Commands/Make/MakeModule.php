@@ -1,12 +1,12 @@
 <?php
 
-namespace SenkuLabs\Mora\Console\Commands;
+namespace SenkuLabs\Mora\Console\Commands\Make;
 
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
 use SenkuLabs\Mora\Generators\BaseModuleGenerator;
 
-class MakeModuleCommand extends Command
+class MakeModule extends Command
 {
     protected $signature = 'make:module {name : The name of the module}';
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace SenkuLabs\Mora\Console\Commands;
+namespace SenkuLabs\Mora\Console\Commands\Make;
 
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\File;
