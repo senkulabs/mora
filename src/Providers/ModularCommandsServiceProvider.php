@@ -6,7 +6,9 @@ use Illuminate\Console\Application as Artisan;
 use Illuminate\Database\Console\Migrations\MigrateMakeCommand as OriginalMigrateMakeCommand;
 use Illuminate\Support\ServiceProvider;
 use Livewire\Features\SupportConsoleCommands\Commands\MakeCommand as MakeLivewireCommand;
+use Livewire\Volt\Console\MakeCommand as MakeVoltCommand;
 use SenkuLabs\Mora\Console\Commands\Make\MakeLivewire;
+use SenkuLabs\Mora\Console\Commands\Make\MakeVolt;
 use SenkuLabs\Mora\Console\Commands\Make\MakeModule;
 use SenkuLabs\Mora\Console\Commands\Database\SeedCommand;
 use SenkuLabs\Mora\Console\Commands\Make\MakeCast;
@@ -87,6 +89,7 @@ class ModularCommandsServiceProvider extends ServiceProvider
                 $this->registerMakeCommandOverrides();
                 $this->registerMigrationCommandOverrides();
                 $this->registerLivewireOverrides($artisan);
+                $this->registerVoltOverrides($artisan);
             });
         });
     }
@@ -130,8 +133,25 @@ class ModularCommandsServiceProvider extends ServiceProvider
 
         // Ensure that if 'make:livewire' or 'livewire:make' is resolved from the container
         // in the future, our subclass is used instead
-        $this->app->extend(MakeLivewireCommand::class, function () {
-            return new MakeLivewire();
+        $this->app->extend(MakeLivewireCommand::class, function ($command, $app) {
+            return new MakeLivewire($app['files']);
+        });
+    }
+
+    protected function registerVoltOverrides(Artisan $artisan)
+    {
+        // Don't register commands if Volt isn't installed
+        if (! class_exists(MakeVoltCommand::class)) {
+            return;
+        }
+
+        // Replace the resolved command with our subclass
+        $artisan->resolveCommands(MakeVolt::class);
+
+        // Ensure that if 'make:volt' is resolved from the container
+        // in the future, our subclass is used instead
+        $this->app->extend(MakeVoltCommand::class, function ($command, $app) {
+            return new MakeVolt($app['files']);
         });
     }
 }
