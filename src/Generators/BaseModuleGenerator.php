@@ -80,7 +80,7 @@ class BaseModuleGenerator
 
         // Add to require
         if (!isset($composer['require'][$this->composerName])) {
-            $composer['require'][$this->composerName] = '@dev';
+            $composer['require'][$this->composerName] = '*';
         }
 
         // Add to repositories

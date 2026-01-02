@@ -1,5 +1,6 @@
 {
     "name": "StubComposerName",
+    "version": "1.0",
     "description": "",
     "extra": {
         "laravel": {
