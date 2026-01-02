@@ -65,13 +65,6 @@ class ModuleTest extends TestCase
         $this->assertEquals('/path/to/module/app/Models', $module->getExtraPath('app/Models'));
     }
 
-    public function test_module_is_always_enabled(): void
-    {
-        $module = new Module($this->app, 'TestModule', '/path/to/module');
-
-        $this->assertTrue($module->isEnabled());
-    }
-
     public function test_it_converts_to_string_as_studly_name(): void
     {
         $module = new Module($this->app, 'test-module', '/path/to/module');

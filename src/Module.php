@@ -81,14 +81,6 @@ class Module
     }
 
     /**
-     * Modules are always enabled when installed via composer.
-     */
-    public function isEnabled(): bool
-    {
-        return true;
-    }
-
-    /**
      * Handle call __toString.
      */
     public function __toString(): string
