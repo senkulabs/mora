@@ -5,12 +5,12 @@ namespace SenkuLabs\Mora\Console\Commands\Make;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
-use SenkuLabs\Mora\Console\Commands\Modularize;
 use Livewire\Features\SupportConsoleCommands\Commands\MakeCommand;
+use SenkuLabs\Mora\Modular;
 
 class MakeLivewire extends MakeCommand
 {
-    use Modularize;
+    use Modular;
 
     public function getAliases(): array
     {

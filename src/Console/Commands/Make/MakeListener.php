@@ -4,11 +4,12 @@ namespace SenkuLabs\Mora\Console\Commands\Make;
 
 use Illuminate\Console\GeneratorCommand;
 use Illuminate\Foundation\Console\ListenerMakeCommand;
+use SenkuLabs\Mora\Modular;
 use SenkuLabs\Mora\Support\Facades\Modules;
 
 class MakeListener extends ListenerMakeCommand
 {
-	use Modularize;
+	use Modular;
 
 	protected function buildClass($name)
 	{

@@ -3,10 +3,11 @@
 namespace SenkuLabs\Mora\Console\Commands\Make;
 
 use Illuminate\Foundation\Console\ComponentMakeCommand;
+use SenkuLabs\Mora\Modular;
 
 class MakeComponent extends ComponentMakeCommand
 {
-	use Modularize;
+	use Modular;
 
 	protected function viewPath($path = '')
 	{

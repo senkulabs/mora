@@ -4,10 +4,11 @@ namespace SenkuLabs\Mora\Console\Commands\Make;
 
 use Illuminate\Foundation\Console\TestMakeCommand;
 use Illuminate\Support\Str;
+use SenkuLabs\Mora\Modular;
 
 class MakeTest extends TestMakeCommand
 {
-	use Modularize {
+	use Modular {
 		getPath as getModularPath;
 	}
 

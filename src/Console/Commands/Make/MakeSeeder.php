@@ -4,10 +4,11 @@ namespace SenkuLabs\Mora\Console\Commands\Make;
 
 use Illuminate\Database\Console\Seeds\SeederMakeCommand;
 use Illuminate\Support\Str;
+use SenkuLabs\Mora\Modular;
 
 class MakeSeeder extends SeederMakeCommand
 {
-	use Modularize {
+	use Modular {
 		getPath as getModularPath;
 	}
 

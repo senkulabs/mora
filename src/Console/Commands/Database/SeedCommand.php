@@ -3,11 +3,11 @@
 namespace SenkuLabs\Mora\Console\Commands\Database;
 
 use Illuminate\Support\Str;
-use SenkuLabs\Mora\Console\Commands\Modularize;
+use SenkuLabs\Mora\Modular;
 
 class SeedCommand extends \Illuminate\Database\Console\Seeds\SeedCommand
 {
-	use Modularize;
+	use Modular;
 
 	protected function getSeeder()
 	{

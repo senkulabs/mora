@@ -3,11 +3,12 @@
 namespace SenkuLabs\Mora\Console\Commands;
 
 use Illuminate\Console\Command;
+use SenkuLabs\Mora\Modular;
 use Symfony\Component\Process\Process;
 
 class MoraComposerRequire extends Command
 {
-    use Modularize;
+    use Modular;
 
     protected $signature = 'mora:composer-require
                             {packages* : The composer packages to require}

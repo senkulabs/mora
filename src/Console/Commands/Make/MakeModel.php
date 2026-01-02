@@ -3,10 +3,11 @@
 namespace SenkuLabs\Mora\Console\Commands\Make;
 
 use Illuminate\Foundation\Console\ModelMakeCommand;
+use SenkuLabs\Mora\Modular;
 
 class MakeModel extends ModelMakeCommand
 {
-	use Modularize;
+	use Modular;
 
 	protected function getDefaultNamespace($rootNamespace)
 	{

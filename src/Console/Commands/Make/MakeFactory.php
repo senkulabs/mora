@@ -4,10 +4,11 @@ namespace SenkuLabs\Mora\Console\Commands\Make;
 
 use Illuminate\Database\Console\Factories\FactoryMakeCommand;
 use Illuminate\Support\Str;
+use SenkuLabs\Mora\Modular;
 
 class MakeFactory extends FactoryMakeCommand
 {
-	use Modularize;
+	use Modular;
 
 	protected function replaceNamespace(&$stub, $name)
 	{

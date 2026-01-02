@@ -4,10 +4,11 @@ namespace SenkuLabs\Mora\Console\Commands\Make;
 
 use Illuminate\Database\Console\Migrations\MigrateMakeCommand;
 use Illuminate\Filesystem\Filesystem;
+use SenkuLabs\Mora\Modular;
 
 class MakeMigration extends MigrateMakeCommand
 {
-	use Modularize;
+	use Modular;
 
 	protected function getMigrationPath()
 	{

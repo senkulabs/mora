@@ -3,11 +3,11 @@
 namespace SenkuLabs\Mora\Console\Commands\Make;
 
 use Illuminate\Foundation\Console\ViewMakeCommand;
-use SenkuLabs\Mora\Console\Commands\Modularize;
+use SenkuLabs\Mora\Modular;
 
 class MakeView extends ViewMakeCommand
 {
-    use Modularize;
+    use Modular;
 
     /**
      * Get the view path for the module.

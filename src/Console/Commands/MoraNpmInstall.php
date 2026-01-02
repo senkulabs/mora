@@ -3,11 +3,12 @@
 namespace SenkuLabs\Mora\Console\Commands;
 
 use Illuminate\Console\Command;
+use SenkuLabs\Mora\Modular;
 use Symfony\Component\Process\Process;
 
 class MoraNpmInstall extends Command
 {
-    use Modularize;
+    use Modular;
 
     protected $signature = 'mora:npm-install
                             {packages* : The npm packages to install}

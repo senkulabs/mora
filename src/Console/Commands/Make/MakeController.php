@@ -5,10 +5,11 @@ namespace SenkuLabs\Mora\Console\Commands\Make;
 use Illuminate\Routing\Console\ControllerMakeCommand;
 use Illuminate\Support\Str;
 use InvalidArgumentException;
+use SenkuLabs\Mora\Modular;
 
 class MakeController extends ControllerMakeCommand
 {
-	use Modularize;
+	use Modular;
 
 	protected function parseModel($model)
 	{

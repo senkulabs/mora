@@ -4,10 +4,11 @@ namespace SenkuLabs\Mora\Console\Commands\Make;
 
 use Illuminate\Foundation\Console\ConsoleMakeCommand;
 use Illuminate\Support\Str;
+use SenkuLabs\Mora\Modular;
 
 class MakeCommand extends ConsoleMakeCommand
 {
-	use Modularize;
+	use Modular;
 
 	protected function replaceClass($stub, $name)
 	{
