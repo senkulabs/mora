@@ -97,7 +97,7 @@ class BaseModuleGenerator
         }
 
         if (!$repositoryExists) {
-            $composer['repositories'][$this->moduleName] = [
+            $composer['repositories'][$this->composerName] = [
                 'type' => 'path',
                 'url' => "Modules/{$this->classNamePrefix}",
             ];
