@@ -27,6 +27,18 @@
     },
     "require-dev": {
         "livewire/livewire": "^3.7",
-        "livewire/volt": "^1.10"
+        "livewire/volt": "^1.10",
+        "orchestra/testbench": "^10.0",
+        "phpunit/phpunit": "^11.0"
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "SenkuLabs\\Mora\\Tests\\": "tests"
+        }
+    },
+    "scripts": {
+        "test": "vendor/bin/phpunit",
+        "test:unit": "vendor/bin/phpunit --testsuite=Unit",
+        "test:feature": "vendor/bin/phpunit --testsuite=Feature"
     }
 }
