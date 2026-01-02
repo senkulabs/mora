@@ -33,7 +33,7 @@ trait Modularize
 				'--module',
 				null,
 				InputOption::VALUE_REQUIRED,
-				'Run inside an application module'
+				'Create file inside a module'
 			)
 		);
 	}
