@@ -66,7 +66,8 @@ class MoraComposerRequire extends Command
         $this->components->info('Composer packages required successfully.');
         $this->newLine();
         $this->components->warn('Run the following command to update dependencies:');
-        $this->line('  composer update');
+        $relativePath = str_replace(base_path() . '/', '', $modulePath);
+        $this->line("  composer update {$relativePath}");
 
         return self::SUCCESS;
     }
