@@ -2,6 +2,7 @@
     "name": "senkulabs/mora",
     "description": "Modular Laravel with native artisan conventions.",
     "type": "library",
+    "license": "MIT",
     "authors": [
         {
             "name": "Kresna Satya",
