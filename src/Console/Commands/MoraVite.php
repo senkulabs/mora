@@ -4,15 +4,15 @@ namespace SenkuLabs\Mora\Console\Commands;
 
 use Illuminate\Console\Command;
 
-class MoraInit extends Command
+class MoraVite extends Command
 {
-    protected $signature = 'mora:init';
+    protected $signature = 'mora:vite';
 
-    protected $description = 'Prepare Laravel project setup for modular architecture';
+    protected $description = 'Configure Vite for modular Laravel architecture';
 
     public function handle(): int
     {
-        $this->components->info('Initializing Mora modular setup...');
+        $this->components->info('Configuring Vite for modules...');
         $this->newLine();
 
         $packageJsonUpdated = $this->updatePackageJson();
@@ -21,7 +21,7 @@ class MoraInit extends Command
         $this->newLine();
 
         if ($packageJsonUpdated || $viteConfigUpdated) {
-            $this->components->info('Mora initialization completed successfully.');
+            $this->components->info('Vite configured successfully.');
         } else {
             $this->components->warn('No changes were made. Files may already be configured.');
         }
