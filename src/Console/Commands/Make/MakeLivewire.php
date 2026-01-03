@@ -164,6 +164,7 @@ class MakeLivewire extends MakeCommand
             // Create the method and add call in boot()
             $methodCode = <<<PHP
 
+
     protected function registerLivewireComponents(): void
     {
 {$componentRegistration}
@@ -177,11 +178,11 @@ PHP;
                 $contents
             );
 
-            // Add method call in boot() if not present
+            // Add method call in boot() at the end, before the closing brace
             if (! Str::contains($contents, '$this->registerLivewireComponents()')) {
                 $contents = preg_replace(
-                    '/(public function boot\(\).*?\{)/s',
-                    "$1\n        \$this->registerLivewireComponents();",
+                    '/(public function boot\(\)[^{]*\{)(.*?)(\n    \})/s',
+                    "$1$2\n\n        \$this->registerLivewireComponents();$3",
                     $contents
                 );
             }

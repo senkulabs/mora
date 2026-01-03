@@ -262,18 +262,18 @@ PHP;
         $methodCode = str_replace('StubModuleName', $moduleName, $methodCode);
         $methodCode = str_replace('stub-module-kebab', $moduleKebab, $methodCode);
 
-        // Add method before the closing class brace
+        // Add method before the closing class brace (with blank line before it)
         $contents = preg_replace(
             '/(\n\})(\s*)$/',
-            "{$methodCode}\n}$2",
+            "\n{$methodCode}\n}$2",
             $contents
         );
 
-        // Add method call in boot() if not present
+        // Add method call in boot() at the end, before the closing brace
         if (! Str::contains($contents, '$this->registerVoltComponents()')) {
             $contents = preg_replace(
-                '/(public function boot\(\).*?\{)/s',
-                "$1\n        \$this->registerVoltComponents();",
+                '/(public function boot\(\)[^{]*\{)(.*?)(\n    \})/s',
+                "$1$2\n\n        \$this->registerVoltComponents();$3",
                 $contents
             );
         }
