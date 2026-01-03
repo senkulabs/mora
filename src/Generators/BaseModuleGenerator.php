@@ -139,6 +139,7 @@ class BaseModuleGenerator
             'composer.json' => 'composer.json',
             'package.json' => 'package.json',
             'gitignore' => '.gitignore',
+            'database/seeders/DatabaseSeeder.php' => 'database/seeders/DatabaseSeeder.php',
             'lang/en/.gitkeep' => 'lang/en/.gitkeep',
             'lang/en/messages.php' => 'lang/en/messages.php',
             'lang/en.json' => 'lang/en.json',
@@ -169,7 +170,6 @@ class BaseModuleGenerator
         $gitkeepDirs = [
             'database/factories',
             'database/migrations',
-            'database/seeders',
             'tests/Feature',
             'tests/Unit',
         ];
