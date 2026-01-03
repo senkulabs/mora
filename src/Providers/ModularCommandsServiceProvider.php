@@ -12,6 +12,8 @@ use SenkuLabs\Mora\Console\Commands\Make\MakeVolt;
 use SenkuLabs\Mora\Console\Commands\Make\MakeModule;
 use SenkuLabs\Mora\Console\Commands\MoraComposerRequire;
 use SenkuLabs\Mora\Console\Commands\MoraNpmInstall;
+use SenkuLabs\Mora\Console\Commands\MoraTestNamespace;
+use SenkuLabs\Mora\Console\Commands\MoraTestSetup;
 use SenkuLabs\Mora\Console\Commands\MoraVite;
 use SenkuLabs\Mora\Console\Commands\Database\SeedCommand;
 use SenkuLabs\Mora\Console\Commands\Make\MakeCast;
@@ -92,6 +94,8 @@ class ModularCommandsServiceProvider extends ServiceProvider
                 $artisan->add(new MoraComposerRequire());
                 $artisan->add(new MoraVite());
                 $artisan->add(new MoraNpmInstall());
+                $artisan->add(new MoraTestSetup());
+                $artisan->add(new MoraTestNamespace());
                 $this->registerMakeCommandOverrides();
                 $this->registerMigrationCommandOverrides();
                 $this->registerLivewireOverrides($artisan);
