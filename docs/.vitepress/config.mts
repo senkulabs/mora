@@ -47,6 +47,7 @@ export default defineConfig({
         items: [
           { text: 'What is Mora?', link: '/what-is-mora' },
           { text: 'Getting Started', link: '/getting-started' },
+          { text: 'Available Commands', link: '/available-commands' }
         ]
       }
     ],
