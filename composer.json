@@ -27,7 +27,8 @@
     "minimum-stability": "stable",
     "require": {
         "php": "^8.2",
-        "laravel/framework": "^12.0"
+        "laravel/framework": "^12.0",
+        "laravel/prompts": "^0.3.8"
     },
     "require-dev": {
         "livewire/livewire": "^3.7",
