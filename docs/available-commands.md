@@ -17,7 +17,7 @@ The default rule is it will create a module inside `Modules` directory with Uppe
 - If user put module name like "guitar" then the module name will be "Guitar".
 - If user put module name like "guitar-hero" then the module name will be "GuitarHero".
 - If user put module name like "Guitar" then the module name will be "Guitar".
-- if user put module name like "Guitar-Hero" then the module name will be "Guitar-Hero".
+- if user put module name like "Guitar-Hero" then the module name will be "GuitarHero".
 
 ## Laravel
 
