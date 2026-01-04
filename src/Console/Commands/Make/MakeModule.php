@@ -6,15 +6,21 @@ use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
 use SenkuLabs\Mora\Generators\BaseModuleGenerator;
 
+use function Laravel\Prompts\text;
+
 class MakeModule extends Command
 {
-    protected $signature = 'make:module {name : The name of the module}';
+    protected $signature = 'make:module {name? : The name of the module}';
 
     protected $description = 'Create a new module with simplified structure';
 
     public function handle(): int
     {
-        $name = $this->argument('name');
+        $name = $this->argument('name') ?: text(
+            label: 'What is the module name?',
+            placeholder: 'E.g. Blog',
+            required: true,
+        );
 
         $this->components->info("Creating module: [{$name}]");
 

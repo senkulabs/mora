@@ -8,13 +8,17 @@ use SenkuLabs\Mora\Support\ModuleRegistry;
 use Symfony\Component\Console\Exception\InvalidOptionException;
 use Symfony\Component\Console\Input\InputOption;
 
+use function Laravel\Prompts\select;
+
 trait Modular
 {
 	protected function module(): ?ModuleConfig
 	{
-		if ($name = $this->option('module')) {
-			$registry = $this->getLaravel()->make(ModuleRegistry::class);
+		$registry = $this->getLaravel()->make(ModuleRegistry::class);
+		$name = $this->option('module');
 
+		// If --module is provided with a value, validate and return the module
+		if ($name) {
 			if ($module = $registry->module($name)) {
 				return $module;
 			}
@@ -22,7 +26,26 @@ trait Modular
 			throw new InvalidOptionException(sprintf('The "%s" module does not exist.', $name));
 		}
 
-		return null;
+		// If --module is not provided, prompt for module selection
+		$modules = $registry->modules();
+
+		if ($modules->isEmpty()) {
+			return null;
+		}
+
+		$choices = $modules->keys()->prepend('None (use main app)')->all();
+
+		$selected = select(
+			label: 'Which module should this be created in?',
+			options: $choices,
+			default: 'None (use main app)',
+		);
+
+		if ($selected === 'None (use main app)') {
+			return null;
+		}
+
+		return $registry->module($selected);
 	}
 
 	protected function configure()
@@ -33,7 +56,7 @@ trait Modular
 			new InputOption(
 				'--module',
 				null,
-				InputOption::VALUE_REQUIRED,
+				InputOption::VALUE_OPTIONAL,
 				'Create file inside a module'
 			)
 		);
