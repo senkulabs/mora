@@ -8,7 +8,7 @@ class MoraVite extends Command
 {
     protected $signature = 'mora:vite';
 
-    protected $description = 'Configure Vite for modular Laravel architecture';
+    protected $description = 'Configure Vite and set "workspaces" in package.json for modular Laravel architecture';
 
     public function handle(): int
     {
@@ -22,6 +22,14 @@ class MoraVite extends Command
 
         if ($packageJsonUpdated || $viteConfigUpdated) {
             $this->components->info('Vite configured successfully.');
+
+            if ($packageJsonUpdated) {
+                $this->newLine();
+                $this->components->warn('Please run [npm install] to activate workspace configuration.');
+                $this->components->bulletList([
+                    'Shared dependencies across workspaces will be hoisted to the root node_modules.',
+                ]);
+            }
         } else {
             $this->components->warn('No changes were made. Files may already be configured.');
         }
