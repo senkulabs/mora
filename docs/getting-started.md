@@ -73,6 +73,14 @@ This command will:
 - Make Vite detect `Modules` directory. Each time certain directories inside the `Modules` change then Vite will refresh the Laravel app in dev mode. Vite also include `Modules` directory in build mode.
 - Add `workspaces` option in `package.json`. This will be useful when we want to install certain npm dependencies in a module instead of polluting the `package.json` in Laravel app. This will be discuss in the next section.
 
+After that, we need to re-run `npm install` to "activate" workspace configuration.
+
+> [!NOTE]
+> Actually, the meaning of word "activate" is shared dependencies across workspaces get hoisted to the root `node_modules` to avoid duplication.
+
+> [!TIP]
+> If you're making significant changes to workspaces (adding/removing packages), sometimes it's cleaner to run command `rm -rf node_modules package-lock.json && npm install`. This ensures a fresh install without any stale symlinks or cached dependency trees.
+
 Let's test it by update `app.js` and `app.css` in `Modules/Blog/resources`.
 
 ::: code-group
@@ -463,7 +471,10 @@ php artisan db:seed --module=Blog --class=PostSeeder
 
 ### NPM Dependency
 
-Let's install dayjs library inside the `Blog` module to show relative time for posts data. Mora have command `mora:npm-install` to add dependencies inside `Blog` module.
+> [!WARNING]
+> Make sure you already setup the [Vite for Modular Laravel](#vite-for-modular-laravel)!
+
+Let's install [dayjs](https://day.js.org) library inside the `Blog` module to show relative time for posts data. Mora have command `mora:npm-install` to add dependencies inside `Blog` module.
 
 ```sh
 php artisan mora:npm-install dayjs --module=Blog
